@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Players</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1d1d1d;
+            color: #ffffff
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-shadow: 2px 2px 4px #ff9f00;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 3rem;
+            margin-bottom: 40px;
+        }
+
+        .btn-download {
+            background-color: #ff9f00;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            border: 2px solid #ffffff;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-download:hover {
+            background-color: #ff5722;
+            color: #ffffff;
+            box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.4);
+            transform: scale(1.05);
+        }
+
+        .list-group-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .list-group-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .list-group-item::before {
+            content: '🏀';
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: #ff9f00;
+        }
+
+        a {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        a:hover {
+            color: #ff9f00;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 800px;
+        }
+
+        body:before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">NBA Players</h1>
+        
+        <div class="text-center">
+            <a href="/download_csv" id="downloadBtn" class="btn btn-download btn-lg" download="nba_players.csv">Download Players</a>
+        </div>
+
+        <ul class="list-group mt-4">
+            {% for player in players %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('player_info', name=player) }}">{{ player }}</a>
+                </li>
+            {% endfor %}    
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

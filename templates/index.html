@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Players</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-shadow: 2px 2px 4px #ff9f00;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 3rem;
+        }
+
+        h1, .navbar-brand {
+            color: #ffffff;
+        }
+
+        .card {
+            background-color: #1d1d1d;
+            color: #ffffff;
+        }
+
+        .card-title {
+            color: #ff9f00;
+        }
+
+        pre {
+            background-color: #000000;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            overflow: auto;
+        }
+
+        .btn-primary {
+            background-color: #0057b8;
+            border-color: #0057b8;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff9f00;
+            border-color: #ff9f00;
+        }
+
+        .btn-youtube {
+            background-color: #ff9f00;
+            border-color: #ff9f00;
+            color: #ffffff;
+        }
+
+        .btn-youtube:hover {
+            background-color: #0057b8;
+            border-color: #0057b8;
+        }
+
+        .navbar {
+            background-color: #333333;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">NBA Players List</h1>
+
+        <form action="{{ url_for('crawl_players') }}" method="POST" class="text-center mb-3">
+            <button type="submit" class="btn btn-primary btn-lg">Crawl NBA Players</button>
+        </form>
+
+        <div class="text-center">
+            <a href="https://youtu.be/Cw7G2pmhs18?si=F3hA-rgKuk_XtqPd" target="_blank" class="btn btn-youtube btn-lg">
+                Go to YouTube
+            </a>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row" id="repo-files"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        const username = 'jackkyjack';
+        const repository = 'TOC_Proj';
+        const filePath = 'app.py';
+
+        fetch(`https://api.github.com/repos/${username}/${repository}/contents/${filePath}`)
+            .then(response => response.json())
+            .then(data => {
+                const fileContent = atob(data.content);
+                const repoFilesDiv = document.getElementById('repo-files');
+
+                const col = document.createElement('div');
+                col.className = 'col-12 mb-4';
+                col.innerHTML = `
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">${filePath}</h5>
+                            <pre><code id="code-display"></code></pre>
+                            <p class="card-text">
+                                <a href="https://github.com/${username}/${repository}/blob/main/${filePath}" target="_blank" class="btn btn-primary">
+                                    <i class="fas fa-file-download"></i> View on GitHub
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                `;
+                repoFilesDiv.appendChild(col);
+
+                document.getElementById('code-display').textContent = fileContent;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                const repoFilesDiv = document.getElementById('repo-files');
+                repoFilesDiv.innerHTML = '<div class="col-12"><div class="alert alert-danger">Failed to load app.py. Please try again later.</div></div>';
+            });
+    </script>
+</body>
+</html>
